@@ -24,6 +24,7 @@ export default class AppContainer extends Component {
     this.selectAlbum = this.selectAlbum.bind(this);
     this.selectArtist = this.selectArtist.bind(this);
     this.createPlaylist = this.createPlaylist.bind(this);
+    this.selectPlaylist = this.selectPlaylist.bind(this);
 
   }
 
@@ -136,6 +137,15 @@ export default class AppContainer extends Component {
           this.setState({playlists:[...this.state.playlists, result]})
         });
 
+  }
+
+  selectPlaylist(playlistId) {
+    axios.get(`/api/playlists/${playlistId}`)
+        .then(res => res.data)
+        .then(playlist => {
+          playlist.songs = playlist.songs.map(convertSong);
+          this.setState({selectedPlaylist: playlist})
+        })
   }
 
   render () {
