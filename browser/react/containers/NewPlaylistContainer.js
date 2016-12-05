@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import NewPlaylist from '../components/NewPlaylist';
 
@@ -6,6 +7,7 @@ import NewPlaylist from '../components/NewPlaylist';
 class NewPlaylistContainer extends Component {
   constructor(props) {
     super(props);
+    console.log("newplaylistcontainer constructor props", props);
     this.state = {
       inputValue: ''
     };
@@ -23,21 +25,34 @@ class NewPlaylistContainer extends Component {
   validateForm() {
     const inputLength = this.state.inputValue.length;
     const button = document.getElementById("playlist-submit");
-    if (inputLength > 0 && inputLength < 16) button.disabled = false;
+    const input = document.getElementById("playlist-input");
+    const warning = document.getElementById("alert-warning");
+    if (inputLength > 0 && inputLength < 16) {
+      warning.hidden = true;
+      button.disabled = false;
+      input.dataset.touched = true;
+    }
+    if(inputLength === 0 && input.dataset.touched === "true" || inputLength >=16){
+      warning.hidden = false;
+    }
+
   }
 
   onSubmit(event) {
     event.preventDefault();
-    console.log("input value", this.state.inputValue);
+    this.props.createPlaylist(this.state.inputValue);
     this.setState({ inputValue: '' })
   }
+
+
 
   render() {
     return (
       <div>
         <NewPlaylist handleInput={this.handleInput}
             onSubmit={this.onSubmit}
-            inputValue={this.state.inputValue} />
+            inputValue={this.state.inputValue}
+            createPlaylist = {this.createPlaylist}/>
       </div>
     )
   }

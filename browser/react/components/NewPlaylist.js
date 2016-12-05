@@ -4,15 +4,18 @@ const NewPlaylist = (props) => {
   return (
     <form onSubmit={props.onSubmit} id="new-playlist-form" className="form-group" style={{marginTop: '20px'}}>
       <input
+          id = "playlist-input"
         className="form-control"
         placeholder="Enter playlist name"
         onChange={props.handleInput}
         value={props.inputValue}
+        data-touched="false"
       />
-      <button id="playlist-submit" disabled="true" type="submit" form="new-playlist-form" value="Submit" className="btn btn-primary btn-block">
+      <button id="playlist-submit" disabled="true" type="submit" form="new-playlist-form" value="Submit"
+              className="btn btn-primary btn-block">
         <span className="glyphicon glyphicon-plus"></span> SUBMIT
       </button>
-      <div id="alert-warning" hidden="true" className="alert alert-warning">Please enter a name</div>
+      <div id="alert-warning" hidden="true" className="alert alert-warning">Please enter a valid name</div>
     </form>
   )
 }
